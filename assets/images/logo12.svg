@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00C2CB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#005EA6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <g transform="translate(10, 10)">
+    <path d="M10 40 V 10 L 30 30 L 10 50 V 20 Z M 35 15 Q 45 25 35 35 T 35 55" fill="url(#grad1)" stroke="url(#grad1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <text x="55" y="38" font-family="sans-serif" font-size="32" font-weight="bold" fill="url(#grad1)">NexTune</text>
+  </g>
+</svg>

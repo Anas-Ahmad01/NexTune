@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "100093082842",
+    "project_id": "nextune-5138f",
+    "storage_bucket": "nextune-5138f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:100093082842:android:a18af1e8c6705d7604f9e3",
+        "android_client_info": {
+          "package_name": "com.example.nextune"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiCgU1JleFIvWhtsVDey_jm8YAtdMf-O4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

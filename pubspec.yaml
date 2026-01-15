@@ -1,0 +1,58 @@
+name: nextune
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  provider: ^6.1.5+1
+  go_router: ^17.0.1
+  firebase_core: ^4.3.0
+  firebase_auth: ^6.1.3
+  cloud_firestore: ^6.1.1
+  firebase_storage: ^13.0.5
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  flutter_svg: ^2.2.3
+  google_fonts: ^6.3.3
+  cached_network_image: ^3.4.1
+  just_audio: ^0.10.5
+  audio_service: ^0.18.18
+  audio_video_progress_bar: ^2.0.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  # 1. Package for App Icon 📱
+  flutter_launcher_icons: ^0.13.1
+  # 2. Package for Splash Screen 🚀
+  flutter_native_splash: ^2.3.10
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/songs.json
+
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/icon.png" # <--- FIXED NAME
+  min_sdk_android: 21
+  adaptive_icon_background: "#000000"
+  adaptive_icon_foreground: "assets/images/icon.png" # <--- SAME NAME
+
+flutter_native_splash:
+  color: "#000000"
+  # image: "assets/images/app_icon.png" # Keep commented out if you want solid black
+  android_12:
+    color: "#000000"
+    # image: "assets/images/app_icon.png"
+  fullscreen: true
