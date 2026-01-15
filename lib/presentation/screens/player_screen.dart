@@ -82,7 +82,6 @@ class PlayerScreen extends StatelessWidget {
 
             const SizedBox(height: 30),
 
-            // Like and Share
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -130,7 +129,7 @@ class PlayerScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                // SHUFFLE
+
                 IconButton(
                   icon: Icon(Icons.shuffle,
                       color: player.isShuffle ? AppTheme.primary : Colors.white,
@@ -139,13 +138,12 @@ class PlayerScreen extends StatelessWidget {
                   onPressed: () => player.toggleShuffle(),
                 ),
 
-                // PREVIOUS ⏪
+
                 IconButton(
                   icon: const Icon(Icons.skip_previous, color: Colors.white, size: 40),
                   onPressed: player.hasPrevious ? () => player.skipPrevious() : null,
                 ),
 
-                // PLAY/PAUSE
                 IconButton(
                   iconSize: 70,
                   icon: Icon(
@@ -155,13 +153,12 @@ class PlayerScreen extends StatelessWidget {
                   onPressed: () => player.togglePlayPause(),
                 ),
 
-                // NEXT ⏩
                 IconButton(
                   icon: const Icon(Icons.skip_next, color: Colors.white, size: 40),
                   onPressed: player.hasNext ? () => player.skipNext() : null,
                 ),
 
-                // LOOP
+
                 IconButton(
                   icon: Icon(
                       player.loopMode == LoopMode.one ? Icons.repeat_one : Icons.repeat,

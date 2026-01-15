@@ -25,7 +25,6 @@ class MiniPlayer extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // ALBUM ART (With Error Handling)
             ClipRRect(
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(8),
@@ -36,7 +35,7 @@ class MiniPlayer extends StatelessWidget {
                 width: 60,
                 height: 60,
                 fit: BoxFit.cover,
-                // FIX: If the image fails, show this icon instead of crashing
+
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
                     width: 60,
@@ -49,7 +48,6 @@ class MiniPlayer extends StatelessWidget {
             ),
             const SizedBox(width: 12),
 
-            // Title & Artist
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -78,7 +76,6 @@ class MiniPlayer extends StatelessWidget {
               ),
             ),
 
-            // Play/Pause Button
             IconButton(
               icon: Icon(
                 player.isPlaying ? Icons.pause : Icons.play_arrow,

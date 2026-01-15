@@ -24,7 +24,7 @@ class SongRepositoryImpl extends SongRepository{
 
   Future<void> toggleFavorite(String songId, bool isLiked) async {
     final user = _auth.currentUser;
-    if (user == null) return; // Security check
+    if (user == null) return;
 
     final userFavoritesRef = _firestore
         .collection('users')
@@ -33,15 +33,14 @@ class SongRepositoryImpl extends SongRepository{
         .doc(songId);
 
     if (isLiked) {
-      // If currently liked, we DELETE it to unlike
       await userFavoritesRef.delete();
     } else {
-      // If not liked, we WRITE it to like
+
       await userFavoritesRef.set({'addedAt': FieldValue.serverTimestamp()});
     }
   }
 
-  // 2. NEW: Get List of Liked Song IDs
+  // Get List of Liked Song IDs
   Future<List<String>> getLikedSongIds() async {
     final user = _auth.currentUser;
     if (user == null) return [];

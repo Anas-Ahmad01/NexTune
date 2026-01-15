@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-// Import your screens if needed, but mainly we need the MiniPlayer
 import 'mini_player.dart';
 
 class MainWrapper extends StatelessWidget {

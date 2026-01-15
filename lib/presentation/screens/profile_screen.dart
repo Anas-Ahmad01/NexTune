@@ -65,7 +65,6 @@ class ProfileScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 30),
 
-            // BIG AVATAR
             CircleAvatar(
               radius: 60,
               backgroundColor: AppTheme.primary,
@@ -81,13 +80,11 @@ class ProfileScreen extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            // USER NAME
             Text(
               displayName,
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
             ),
 
-            // 1. CHANGED: "Free Account" to "Premium Member" ✨
             const Text(
               "Premium Member",
               style: TextStyle(fontSize: 14, color: AppTheme.primary, fontWeight: FontWeight.w600),
@@ -95,14 +92,11 @@ class ProfileScreen extends StatelessWidget {
 
             const SizedBox(height: 40),
 
-            // MENU OPTIONS (Now with interaction!)
             _buildProfileOption(context, Icons.person, "Edit Profile"),
             _buildProfileOption(context, Icons.notifications, "Notifications"),
             _buildProfileOption(context, Icons.lock, "Privacy & Security"),
             _buildProfileOption(context, Icons.headset_mic, "Help & Support"),
 
-            // OPTIONAL: Button to Upload Songs (Hidden for normal users usually)
-            // _buildProfileOption(context, Icons.cloud_upload, "Upload Database (Dev)", onTap: () => _uploadSongsFromJSON(context)),
 
             const SizedBox(height: 40),
 
@@ -139,19 +133,17 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  // 2. UPDATED Widget to handle taps
   Widget _buildProfileOption(BuildContext context, IconData icon, String title, {VoidCallback? onTap}) {
     return ListTile(
       leading: Icon(icon, color: Colors.white),
       title: Text(title, style: const TextStyle(color: Colors.white)),
       trailing: const Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 16),
       onTap: onTap ?? () {
-        // Default Action: Show SnackBar
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text("$title feature coming soon!"),
             duration: const Duration(seconds: 1),
-            behavior: SnackBarBehavior.floating, // Floats above bottom nav
+            behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.white70,
           ),
         );

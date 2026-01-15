@@ -34,7 +34,7 @@ class AppRouter {
         builder: (context , state) => const PlayerScreen(),
       ),
       GoRoute(
-          path: 'playlist/:id',
+          path: 'playlist12/:id',
           parentNavigatorKey: _rootNavigatorKey,
         builder: (context , state) {
             final id= state.pathParameters['id']!;

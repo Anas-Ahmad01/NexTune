@@ -27,8 +27,8 @@ class LibraryScreen extends StatelessWidget {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Color(0xFF1DB954), // Spotify Green top
-                      Colors.black,      // Black bottom
+                      Color(0xFF1DB954),
+                      Colors.black,
                     ],
                   ),
                 ),
@@ -36,7 +36,6 @@ class LibraryScreen extends StatelessWidget {
             ),
           ),
 
-          // B. The Content
           if (likedSongs.isEmpty)
             const SliverFillRemaining(
               child: Center(
@@ -72,7 +71,6 @@ class LibraryScreen extends StatelessWidget {
                       },
                     ),
                     onTap: () {
-                      // ✅ FIX: Pass 'likedSongs' as the queue!
                       context.read<PlayerProvider>().playSong(song, likedSongs);
                       context.push('/player');
                     },

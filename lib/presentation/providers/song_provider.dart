@@ -14,20 +14,18 @@ class SongProvider extends ChangeNotifier {
   List<Song> _recentlyPlayed = [];
   List<Song> _searchResults = [];
 
-  // 3. FAVORITES (User specific)
   Set<String> _likedSongIds = {};
 
   bool _isLoading = false;
 
-  // --- GETTERS (The UI listens to these) ---
   bool get isLoading => _isLoading;
-  List<Song> get songs => _searchResults; // For Search & All Songs list
-  List<Song> get mostPopularSongs => _popularSongs; // Random 5
-  List<Song> get newReleases => _newReleases; // Random 5 (different)
+  List<Song> get songs => _searchResults;
+  List<Song> get mostPopularSongs => _popularSongs;
+  List<Song> get newReleases => _newReleases;
   List<Song> get recentlyPlayed => _recentlyPlayed;
   List<Song> get likedSongs => _allSongs.where((song) => _likedSongIds.contains(song.id)).toList();
 
-  // --- FETCH & RANDOMIZE ---
+  // FETCH & RANDOMIZE
   Future<void> fetchSongs() async {
     _isLoading = true;
     notifyListeners();
@@ -38,13 +36,13 @@ class SongProvider extends ChangeNotifier {
 
       // RANDOMIZATION LOGIC:
       if (_allSongs.isNotEmpty) {
-        // 1. Create a temporary copy and shuffle it
+        // Create a temporary copy and shuffle it
         var randomList = List<Song>.from(_allSongs)..shuffle();
 
-        // 2. Take top 5 for "Popular"
+        // Take top 5 for "Popular"
         _popularSongs = randomList.take(5).toList();
 
-        // 3. Shuffle again for "New Releases" (so it's different from Popular)
+        // Shuffle again for "New Releases"
         randomList.shuffle();
         _newReleases = randomList.take(5).toList();
       }
@@ -61,7 +59,7 @@ class SongProvider extends ChangeNotifier {
     }
   }
 
-  // --- SEARCH LOGIC ---
+  // SEARCH LOGIC
   void search(String query) {
     if (query.isEmpty) {
       _searchResults = _allSongs;
@@ -74,7 +72,7 @@ class SongProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // --- FAVORITES LOGIC ---
+  // FAVORITES LOGIC
   bool isLiked(String songId) {
     return _likedSongIds.contains(songId);
   }
@@ -82,7 +80,6 @@ class SongProvider extends ChangeNotifier {
   Future<void> toggleLike(String songId) async {
     final isCurrentlyLiked = _likedSongIds.contains(songId);
 
-    // Optimistic Update
     if (isCurrentlyLiked) {
       _likedSongIds.remove(songId);
     } else {
@@ -93,7 +90,6 @@ class SongProvider extends ChangeNotifier {
     try {
       await _songRepository.toggleFavorite(songId, isCurrentlyLiked);
     } catch (e) {
-      // Revert if error
       if (isCurrentlyLiked) {
         _likedSongIds.add(songId);
       } else {
@@ -103,15 +99,13 @@ class SongProvider extends ChangeNotifier {
     }
   }
 
-  // --- HISTORY LOGIC (Recently Played) ---
+
   void addToRecentlyPlayed(Song song) {
-    // Remove if it exists to avoid duplicates
+
     _recentlyPlayed.removeWhere((s) => s.id == song.id);
 
-    // Add to the front
     _recentlyPlayed.insert(0, song);
 
-    // Keep max 10 songs
     if (_recentlyPlayed.length > 10) {
       _recentlyPlayed.removeLast();
     }

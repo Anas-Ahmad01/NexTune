@@ -108,7 +108,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       backgroundColor: Colors.black,
-      // FIX: Wrapped in Center + SingleChildScrollView to handle keyboard overflow
       body: Center(
         child: SingleChildScrollView(
           child: Padding(

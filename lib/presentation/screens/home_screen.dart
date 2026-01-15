@@ -15,10 +15,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // 1. STATE VARIABLE: Tracks the active filter
+
   String _selectedFilter = "All";
 
-  // List of filter options
   final List<String> _filters = ["All", "Music", "Podcasts", "Live Events"];
 
   @override
@@ -43,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // HEADER
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -60,7 +59,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 const SizedBox(height: 20),
 
-                // 2. INTERACTIVE FILTER CHIPS
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
@@ -81,7 +79,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 const SizedBox(height: 30),
 
-                // SECTION: RECENTLY PLAYED
                 if (recentlyPlayed.isNotEmpty) ...[
                   const SectionTitle(title: "Recently Played"),
                   const SizedBox(height: 16),
@@ -117,7 +114,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // --- HELPER METHODS ---
 
   // 3. UPDATED CHIP BUILDER: Now accepts an onTap callback
   Widget _buildChip(String label, bool isSelected, VoidCallback onTap) {
@@ -154,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
             song: song,
             onTap: () {
               context.read<SongProvider>().addToRecentlyPlayed(song);
-              // Pass the local list as the queue
+
               context.read<PlayerProvider>().playSong(song, songs);
               context.push('/player');
             },
@@ -188,7 +184,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           onTap: () {
             context.read<SongProvider>().addToRecentlyPlayed(song);
-            // Pass the local list as the queue
             context.read<PlayerProvider>().playSong(song, songs);
             context.push('/player');
           },

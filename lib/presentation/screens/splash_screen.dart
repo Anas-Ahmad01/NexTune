@@ -43,7 +43,6 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
 
-            // 1. CHANGED: Using SVG instead of Icon
             SvgPicture.asset(
               'assets/images/logo.svg',
               height: 230,
