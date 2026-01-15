@@ -5,7 +5,7 @@ import '../providers/song_provider.dart';
 import '../providers/player_provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../widgets/horizontal_song_card.dart';
-import '../../domain/entities/song.dart'; // Ensure Song is imported
+import '../../domain/entities/song.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,6 +15,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // 1. STATE VARIABLE: Tracks the active filter
+  String _selectedFilter = "All";
+
+  // List of filter options
+  final List<String> _filters = ["All", "Music", "Podcasts", "Live Events"];
+
   @override
   void initState() {
     super.initState();
@@ -23,14 +29,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // 1. Get Data from the updated Provider
     final songProvider = context.watch<SongProvider>();
-
     final allSongs = songProvider.songs;
     final recentlyPlayed = songProvider.recentlyPlayed;
     final mostPopular = songProvider.mostPopularSongs;
     final newReleases = songProvider.newReleases;
-    // REMOVED: Duplicate definition of allSongs
 
     return Scaffold(
       body: SafeArea(
@@ -40,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 2. HEADER
+                // HEADER
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -57,47 +60,53 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 const SizedBox(height: 20),
 
-                // 3. FILTER CHIPS
+                // 2. INTERACTIVE FILTER CHIPS
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    children: [
-                      _buildChip("All", true),
-                      _buildChip("Music", false),
-                      _buildChip("Podcasts", false),
-                      _buildChip("Live Events", false),
-                    ],
+                    children: _filters.map((filter) {
+                      return _buildChip(
+                          filter,
+                          _selectedFilter == filter, // Check if this one is selected
+                              () {
+                            // Update state on tap
+                            setState(() {
+                              _selectedFilter = filter;
+                            });
+                          }
+                      );
+                    }).toList(),
                   ),
                 ),
 
                 const SizedBox(height: 30),
 
-                // 4. SECTION: RECENTLY PLAYED
+                // SECTION: RECENTLY PLAYED
                 if (recentlyPlayed.isNotEmpty) ...[
                   const SectionTitle(title: "Recently Played"),
                   const SizedBox(height: 16),
-                  _buildHorizontalList(context, recentlyPlayed), // Pass list
+                  _buildHorizontalList(context, recentlyPlayed),
                   const SizedBox(height: 30),
                 ],
 
-                // 5. SECTION: MOST POPULAR
+                // SECTION: MOST POPULAR
                 const SectionTitle(title: "Most Popular"),
                 const SizedBox(height: 16),
-                _buildHorizontalList(context, mostPopular), // Pass list
+                _buildHorizontalList(context, mostPopular),
 
                 const SizedBox(height: 30),
 
-                // 6. SECTION: NEW RELEASES
+                // SECTION: NEW RELEASES
                 const SectionTitle(title: "New Releases"),
                 const SizedBox(height: 16),
-                _buildHorizontalList(context, newReleases), // Pass list
+                _buildHorizontalList(context, newReleases),
 
                 const SizedBox(height: 30),
 
-                // 7. SECTION: ALL SONGS (Vertical List)
+                // SECTION: ALL SONGS (Supermix)
                 const SectionTitle(title: "Your Supermix"),
                 const SizedBox(height: 10),
-                _buildVerticalList(context, allSongs), // Pass list
+                _buildVerticalList(context, allSongs),
 
                 const SizedBox(height: 80),
               ],
@@ -110,25 +119,29 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // --- HELPER METHODS ---
 
-  Widget _buildChip(String label, bool isSelected) {
-    return Container(
-      margin: const EdgeInsets.only(right: 12),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      decoration: BoxDecoration(
-        color: isSelected ? const Color(0xFF1DB954) : Colors.white12,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: isSelected ? Colors.black : Colors.white,
-          fontWeight: FontWeight.bold,
+  // 3. UPDATED CHIP BUILDER: Now accepts an onTap callback
+  Widget _buildChip(String label, bool isSelected, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.only(right: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        decoration: BoxDecoration(
+          color: isSelected ? const Color(0xFF1DB954) : Colors.white12, // Green if selected
+          borderRadius: BorderRadius.circular(30),
+          border: isSelected ? null : Border.all(color: Colors.white24),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            color: isSelected ? Colors.black : Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
   }
 
-  // FIXED: Renamed 'List songs' to 'List<Song> songs' for type safety
   Widget _buildHorizontalList(BuildContext context, List<Song> songs) {
     return SizedBox(
       height: 200,
@@ -141,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
             song: song,
             onTap: () {
               context.read<SongProvider>().addToRecentlyPlayed(song);
-              // FIX: Use 'songs' (the local list) as the queue, not 'allSongs'
+              // Pass the local list as the queue
               context.read<PlayerProvider>().playSong(song, songs);
               context.push('/player');
             },
@@ -151,7 +164,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // FIXED: Renamed 'List songs' to 'List<Song> songs'
   Widget _buildVerticalList(BuildContext context, List<Song> songs) {
     return ListView.builder(
       shrinkWrap: true,
@@ -176,7 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           onTap: () {
             context.read<SongProvider>().addToRecentlyPlayed(song);
-            // FIX: Added the missing second argument (the queue)
+            // Pass the local list as the queue
             context.read<PlayerProvider>().playSong(song, songs);
             context.push('/player');
           },
